@@ -33,7 +33,6 @@ class ActivityLogger
     {
         $this->auth = $auth;
 
-
         $this->authDriver = $config['activitylog']['default_auth_driver'] ?? $auth->getDefaultDriver();
 
         $this->defaultLogName = $config['activitylog']['default_log_name'];
@@ -44,6 +43,13 @@ class ActivityLogger
     public function setLogStatus(ActivityLogStatus $logStatus)
     {
         $this->logStatus = $logStatus;
+
+        return $this;
+    }
+
+    public function relationWith(Model $model)
+    {
+        $this->getActivity()->relation()->associate($model);
 
         return $this;
     }
