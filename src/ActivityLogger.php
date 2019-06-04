@@ -33,6 +33,7 @@ class ActivityLogger
     {
         $this->auth = $auth;
 
+
         $this->authDriver = $config['activitylog']['default_auth_driver'] ?? $auth->getDefaultDriver();
 
         $this->defaultLogName = $config['activitylog']['default_log_name'];
