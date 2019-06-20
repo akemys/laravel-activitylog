@@ -9,12 +9,7 @@ use Spatie\Activitylog\Contracts\PlatformTypes;
 
 class ActivityDate
 {
-    protected $date;
-
-    public function __construct()
-    {
-        $this->date = Carbon::now();
-    }
+    protected $date = null;
 
     /**
      * @return static
@@ -27,7 +22,7 @@ class ActivityDate
     /**
      * @param static $date
      */
-    public function setDate(Carbon $date): void
+    public function setDate(Carbon $date = null): void
     {
         $this->date = $date;
     }

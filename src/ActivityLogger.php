@@ -31,6 +31,10 @@ class ActivityLogger
     /** @var \Spatie\Activitylog\Contracts\Activity */
     protected $activity;
 
+    protected $activityPlatform;
+
+    protected $activityDate;
+
     public function __construct(
         AuthManager $auth,
         Repository $config,
@@ -47,9 +51,15 @@ class ActivityLogger
 
         $this->logStatus = $logStatus;
 
-        $this->performedAt($activityDate->getDate());
+        $this->activityPlatform = $activityPlatform;
 
-        $this->setPlatform($activityPlatform->getPlatform());
+        $this->activityDate = $activityDate;
+
+        if ($this->activityDate->getDate()) {
+            $this->performedAt($this->activityDate->getDate());
+        }
+
+        $this->setPlatform($this->activityPlatform->getPlatform());
     }
 
     public function setLogStatus(ActivityLogStatus $logStatus)
@@ -170,6 +180,9 @@ class ActivityLogger
         $activity->save();
 
         $this->activity = null;
+
+        $this->activityDate->setDate(null);
+        $this->activityPlatform->setPlatform(PlatformTypes::WEB_APPLICATION);
 
         return $activity;
     }
