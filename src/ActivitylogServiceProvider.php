@@ -39,6 +39,7 @@ class ActivitylogServiceProvider extends ServiceProvider
         $this->app->bind(ActivityLogger::class);
 
         $this->app->singleton(ActivityLogStatus::class);
+        $this->app->singleton(ActivityPlatform::class);
     }
 
     public static function determineActivityModel(): string

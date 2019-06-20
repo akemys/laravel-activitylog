@@ -31,7 +31,12 @@ class ActivityLogger
     /** @var \Spatie\Activitylog\Contracts\Activity */
     protected $activity;
 
-    public function __construct(AuthManager $auth, Repository $config, ActivityLogStatus $logStatus)
+    public function __construct(
+        AuthManager $auth,
+        Repository $config,
+        ActivityLogStatus $logStatus,
+        ActivityPlatform $activityPlatform
+    )
     {
         $this->auth = $auth;
 
@@ -41,7 +46,7 @@ class ActivityLogger
 
         $this->logStatus = $logStatus;
 
-        $this->setPlatform(PlatformTypes::WEB_APPLICATION);
+        $this->setPlatform($activityPlatform->getPlatform());
     }
 
     public function setLogStatus(ActivityLogStatus $logStatus)
