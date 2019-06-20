@@ -20,7 +20,7 @@ class ActivityDateMiddleware
         $dateKey = config('activitylog.overwrite_created_at_key');
 
         if ($date = $request->get($dateKey)) {
-            app(ActivityDate::class)->setDate(Carbon::parse($date));
+            app(ActivityDate::class)->setDate(Carbon::parse($date)->setTimezone(config('app.timezone')));
         }
 
         return $next($request);
