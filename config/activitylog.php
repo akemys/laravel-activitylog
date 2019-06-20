@@ -42,4 +42,6 @@ return [
      * used by the Activity model shipped with this package.
      */
     'table_name' => 'activity_log',
+    
+    'overwrite_created_at_key' => 'activity_date'
 ];

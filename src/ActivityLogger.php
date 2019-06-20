@@ -35,7 +35,8 @@ class ActivityLogger
         AuthManager $auth,
         Repository $config,
         ActivityLogStatus $logStatus,
-        ActivityPlatform $activityPlatform
+        ActivityPlatform $activityPlatform,
+        ActivityDate $activityDate
     )
     {
         $this->auth = $auth;
@@ -45,6 +46,8 @@ class ActivityLogger
         $this->defaultLogName = $config['activitylog']['default_log_name'];
 
         $this->logStatus = $logStatus;
+
+        $this->performedAt($activityDate->getDate());
 
         $this->setPlatform($activityPlatform->getPlatform());
     }
