@@ -2,6 +2,8 @@
 
 namespace Spatie\Activitylog;
 
+use Illuminate\Support\Facades\Date;
+use Spatie\Activitylog\Contracts\PlatformTypes;
 use Spatie\String\Str;
 use Illuminate\Support\Arr;
 use Illuminate\Auth\AuthManager;
@@ -38,11 +40,20 @@ class ActivityLogger
         $this->defaultLogName = $config['activitylog']['default_log_name'];
 
         $this->logStatus = $logStatus;
+
+        $this->setPlatform(PlatformTypes::WEB_APPLICATION);
     }
 
     public function setLogStatus(ActivityLogStatus $logStatus)
     {
         $this->logStatus = $logStatus;
+
+        return $this;
+    }
+
+    public function setPlatform($platform)
+    {
+        $this->getActivity()->platform = $platform;
 
         return $this;
     }
@@ -57,6 +68,13 @@ class ActivityLogger
     public function performedOn(Model $model)
     {
         $this->getActivity()->subject()->associate($model);
+
+        return $this;
+    }
+
+    public function performedAt(\DateTime $date)
+    {
+        $this->getActivity()->created_at = $date;
 
         return $this;
     }
@@ -170,9 +188,9 @@ class ActivityLogger
         return preg_replace_callback('/:[a-z0-9._-]+/i', function ($match) use ($activity) {
             $match = $match[0];
 
-            $attribute = (string) (new Str($match))->between(':', '.');
+            $attribute = (string)(new Str($match))->between(':', '.');
 
-            if (! in_array($attribute, ['subject', 'causer', 'properties'])) {
+            if (!in_array($attribute, ['subject', 'causer', 'properties'])) {
                 return $match;
             }
 
@@ -192,7 +210,7 @@ class ActivityLogger
 
     protected function getActivity(): ActivityContract
     {
-        if (! $this->activity instanceof ActivityContract) {
+        if (!$this->activity instanceof ActivityContract) {
             $this->activity = ActivitylogServiceProvider::getActivityModelInstance();
             $this
                 ->useLog($this->defaultLogName)
