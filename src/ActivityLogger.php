@@ -182,8 +182,7 @@ class ActivityLogger
         $this->activity = null;
 
         $this->activityDate->setDate(null);
-        $this->activityPlatform->setPlatform(PlatformTypes::WEB_APPLICATION);
-
+        
         return $activity;
     }
 
